@@ -9,10 +9,10 @@ class AppLargeButton extends StatelessWidget {
   final bool? isBorder;
   const AppLargeButton({
     Key? key,
-    this.backgroundColor: AppColor.mainColor,
+    this.backgroundColor = AppColor.mainColor,
     this.textColor,
     this.onTap,
-    this.isBorder: false,
+    this.isBorder = false,
     required this.text,
   }) : super(key: key);
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payment_integration/components/colors.dart';
+import 'package:payment_integration/data/logic.dart';
 import 'package:payment_integration/widget/buttons.dart';
 import 'package:payment_integration/widget/large_button.dart';
 import 'package:payment_integration/widget/text_size.dart';
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage> {
               _buttonContainer(),
               _listBill(),
               _payButton(),
+              _text(),
             ],
           ),
         ),
@@ -104,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                         right: 44,
                         top: 0,
                         child: Container(
-                          margin: const EdgeInsets.only(top: 8),
+                          padding: const EdgeInsets.only(top: 8, bottom: 30),
                           height: 240,
                           width: 60,
                           decoration: BoxDecoration(
@@ -112,15 +114,31 @@ class _HomePageState extends State<HomePage> {
                             color: AppColor.mainColor,
                           ),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               AppButtons(
-                                icon: Icons.cancel,
+                                icon: Icons.cancel_outlined,
                                 iconColor: Colors.white,
                                 textColor: Colors.white,
                                 backgroundColor: Colors.white,
                                 onTap: () {
                                   Navigator.pop(context);
                                 },
+                              ),
+                              AppButtons(
+                                  icon: Icons.add,
+                                  iconColor: Colors.white,
+                                  textColor: Colors.white,
+                                  backgroundColor: Colors.white,
+                                  onTap: () {},
+                                  text: 'Add Bill'),
+                              AppButtons(
+                                icon: Icons.history,
+                                iconColor: Colors.white,
+                                textColor: Colors.white,
+                                backgroundColor: Colors.white,
+                                onTap: () {},
+                                text: 'History',
                               )
                             ],
                           ),
@@ -286,10 +304,43 @@ class _HomePageState extends State<HomePage> {
 
   _payButton() {
     return Positioned(
-        bottom: 10,
+      bottom: 10,
+      child: InkWell(
+        onTap: () {
+          final Auth _auth = Auth();
+
+          _auth.login(context);
+        },
         child: AppLargeButton(
           text: "Pay all bills",
           textColor: Colors.white,
-        ));
+        ),
+      ),
+    );
+  }
+
+  _text() {
+    return Stack(children: const [
+      Positioned(
+        left: 60,
+        top: 90,
+        child: Text(
+          'My Bills',
+          style: TextStyle(
+              fontSize: 50,
+              color: Color(0xff293952),
+              fontWeight: FontWeight.bold),
+        ),
+      ),
+      Positioned(
+        left: 40,
+        top: 50,
+        child: Text(
+          'My Bills',
+          style: TextStyle(
+              fontSize: 60, color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      )
+    ]);
   }
 }
