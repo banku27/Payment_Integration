@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:payment_integration/components/colors.dart';
+import 'package:payment_integration/widget/buttons.dart';
+import 'package:payment_integration/widget/large_button.dart';
 import 'package:payment_integration/widget/text_size.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,15 +21,18 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       backgroundColor: AppColor.backGroundColor,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: [
-            _headSection(),
-            _curveImageContainer(),
-            _buttonContainer(),
-            _listBill(),
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: [
+              _headSection(),
+              _curveImageContainer(),
+              _buttonContainer(),
+              _listBill(),
+              _payButton(),
+            ],
+          ),
         ),
       ),
     );
@@ -75,17 +80,69 @@ class _HomePageState extends State<HomePage> {
     return Positioned(
       bottom: 495,
       right: 43,
-      child: Container(
-        height: 60,
-        width: 60,
-        decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage('assets/lines.png')),
-            boxShadow: [
-              BoxShadow(
-                  blurRadius: 15,
-                  offset: Offset(0, 1),
-                  color: Color(0xff11324d).withOpacity(0.2))
-            ]),
+      child: GestureDetector(
+        onTap: () {
+          showModalBottomSheet<dynamic>(
+              context: context,
+              isScrollControlled: true,
+              barrierColor: Colors.transparent,
+              backgroundColor: Colors.transparent,
+              builder: (BuildContext bc) {
+                return Container(
+                  height: MediaQuery.of(context).size.height - 240,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        bottom: 0,
+                        child: Container(
+                          color: Color(0xffeef1f4).withOpacity(0.7),
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height - 310,
+                        ),
+                      ),
+                      Positioned(
+                        right: 44,
+                        top: 0,
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 8),
+                          height: 240,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(29),
+                            color: AppColor.mainColor,
+                          ),
+                          child: Column(
+                            children: [
+                              AppButtons(
+                                icon: Icons.cancel,
+                                iconColor: Colors.white,
+                                textColor: Colors.white,
+                                backgroundColor: Colors.white,
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              });
+        },
+        child: Container(
+          height: 60,
+          width: 60,
+          decoration: BoxDecoration(
+              image: DecorationImage(image: AssetImage('assets/lines.png')),
+              boxShadow: [
+                BoxShadow(
+                    blurRadius: 15,
+                    offset: Offset(0, 1),
+                    color: Color(0xff11324d).withOpacity(0.2))
+              ]),
+        ),
       ),
     );
   }
@@ -100,10 +157,10 @@ class _HomePageState extends State<HomePage> {
         context: context,
         removeTop: true,
         child: ListView.builder(
-            itemCount: 3,
+            itemCount: 2,
             itemBuilder: (_, index) {
               return Container(
-                margin: EdgeInsets.only(top: 20),
+                margin: EdgeInsets.only(top: 20, right: 20),
                 height: 130,
                 width: MediaQuery.of(context).size.width - 18,
                 decoration: const BoxDecoration(
@@ -225,5 +282,14 @@ class _HomePageState extends State<HomePage> {
             }),
       ),
     );
+  }
+
+  _payButton() {
+    return Positioned(
+        bottom: 10,
+        child: AppLargeButton(
+          text: "Pay all bills",
+          textColor: Colors.white,
+        ));
   }
 }
