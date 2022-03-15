@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payment_integration/components/colors.dart';
+import 'package:payment_integration/data/logic.dart';
 import 'package:payment_integration/widget/buttons.dart';
 import 'package:payment_integration/widget/large_button.dart';
 
@@ -188,10 +189,13 @@ class PaymentPage extends StatelessWidget {
                 height: 15,
               ),
               AppLargeButton(
-                text: 'Done',
-                backgroundColor: Colors.white,
-                textColor: Colors.white,
-              )
+                  text: 'Done',
+                  backgroundColor: Colors.white,
+                  textColor: Colors.white,
+                  onTap: () {
+                    final Auth _auth = Auth();
+                    _auth.logOut(context);
+                  })
             ])
           ],
         ),
